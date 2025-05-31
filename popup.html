@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Element AI Extractor</title>
+  <link rel="stylesheet" href="styles/popup.css" />
+  <script type="module" src="js/popup.js"></script>
+</head>
+<body>
+  <div class="popup-root">
+    <div class="ai-header">
+      <span class="title-ai">🤖 Element <span class="title-ai-accent">AI Extractor</span> <span class="title-eye">👁️</span></span>
+    </div>
+    <div class="ai-tip-bar" id="ai-tip"></div>
+    <input id="search" type="text" placeholder="Search element names..." autocomplete="off" />
+    <div id="filter-group" class="filters"></div>
+    <div class="row toggles">
+      <label><input type="checkbox" id="filterVisible" checked> Visible Only</label>
+      <label><input type="checkbox" id="filterHidden"> Hidden Only</label>
+      <label><input type="checkbox" id="filterShadow"> Shadow DOM</label>
+    </div>
+    <button id="extract" class="extract-btn">🔍 Extract Elements</button>
+    <div id="status" class="status"></div>
+    <div id="preview" class="preview-table"></div>
+  </div>
+</body>
+</html>
