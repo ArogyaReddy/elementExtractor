@@ -11,24 +11,50 @@ body, html {
   min-height: 400px;
   transition: min-height 0.25s;
 }
+
+/* Styles for the main popup container */
 .popup-root {
-  font-size: 12px;  /* <<-- Base font size of the UI elements -TODO: buttons/labels/checkboxes */
-  box-sizing: border-box;
-  padding: 12px 12px 6px 12px;
-  border-radius: 18px;
-  background: #181b22;
-  width: 100%;
-  max-width: 1100px;      /* <<-- Increase width */
-  min-width: 900px;      /* <<-- Increase width */
-  min-height: 410px;
-  transition: min-height 0.35s, max-width 0.22s;
-  box-shadow: 0 2px 30px #0007;
-  margin: 0 auto;
+  font-size: 12px;  /* Base font size for UI elements within the popup */
+  box-sizing: border-box; /* Ensures padding and border don't add to the element's total width/height */
+  padding: 12px 12px 6px 12px; /* Inner spacing */
+  border-radius: 18px; /* Rounded corners for the popup */
+  background: #181b22; /* Background color of the popup */
+
+  /* --- Sizing for the initial, non-expanded state --- */
+  /* On initial load, when the '.expanded' class is NOT present, the popup uses these dimensions. */
+  /* This state should be compact. */
+  width: 95%;             /* Responsive width, occupying 95% of the popup window's width */
+  max-width: 700px;       /* Maximum width the popup can grow to in its non-expanded state. Adjust as needed. */
+  min-width: 380px;       /* Minimum width to ensure basic layout integrity. Adjust based on your content. */
+  min-height: 410px;      /* Initial, non-expanded minimum height. This is the height on load. */
+                          /* If this feels too "expanded" on initial load, you can reduce this value. */
+
+  margin: 10px auto;      /* Adds some space around the popup and centers it horizontally if the window is wider */
+  box-shadow: 0 2px 30px rgba(0, 0, 0, 0.4375); /* Drop shadow for depth */
+  
+  /* Smooth transitions for changes in height or width when '.expanded' class is toggled */
+  /* Ensure all properties you want to animate are listed here or use 'all'. */
+  transition: min-height 0.35s ease-in-out, max-width 0.22s ease-in-out, width 0.22s ease-in-out, border 0.35s ease-in-out;
 }
+
+/* Styles for the popup when it IS expanded */
 .popup-root.expanded {
-  min-height: 660px;
-  max-width: 820px;
-  transition: min-height 0.5s, max-width 0.22s;
+  /* --- Sizing for the expanded state --- */
+  /* These styles apply when the 'expanded' class IS present on the popup-root element. */
+  /* This state is typically taller and potentially wider to show more content. */
+  
+  /* Make it noticeably taller */
+  min-height: 660px;      /* Increased minimum height for the expanded view. */
+
+  /* --- Optional: Make it wider when expanded --- */
+  /* If you want the popup to also become wider when expanded, uncomment and set a new max-width. */
+  /* This new max-width should be greater than the base max-width (700px in this case). */
+  /* max-width: 900px; */    /* Example: Expanded state can grow up to 900px wide. */
+  
+  /* --- For Debugging: Add a temporary visual cue --- */
+  /* This border will appear if the .expanded class is successfully applied. */
+  /* Remove this line after confirming the class is being added. */
+  border: 2px solid limegreen; 
 }
 
 
@@ -64,10 +90,11 @@ body, html {
 
 /* --- Filters and Toggles --- */
 .filters {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 9px;
-  margin-bottom: 7px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 8px;
+  margin-bottom: 15px;
+  width: 100%;
 }
 .filters label {
   background: #232738;
@@ -124,14 +151,15 @@ body, html {
 /* --- Extract Button --- */
 .extract-btn {
   width: 100%;
+  min-width: 200px;
   background: linear-gradient(90deg, #3bbcfb 0%, #67ffd2 80%);
   color: #111a1b;
   border: none;
   font-size: 1.24rem;
   font-weight: 700;
   border-radius: 17px;
-  padding: 15px 0 13px 0;
-  margin: 10px 0 5px 0;
+  padding: 12px;
+  margin: 15px 0 5px 0;
   box-shadow: 0 2px 18px #17eeff48;
   cursor: pointer;
   transition: background 0.22s, color 0.18s, transform 0.12s;
@@ -281,5 +309,126 @@ tr:nth-child(odd) { background: #191c28; }
   outline: 2px solid #40e0d0;
   transition: all 0.17s;
 }
+
+/* Make the main container flexible */
+.container {
+    width: 100%;
+    min-width: 400px;
+    max-width: 800px;
+    padding: 15px;
+    box-sizing: border-box;
+}
+
+/* Fix the filter checkboxes layout */
+.filters {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: 8px;
+    margin-bottom: 15px;
+    width: 100%;
+}
+
+/* Ensure filter items don't overflow */
+.filter-item {
+    display: flex;
+    align-items: center;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    min-width: 0;
+}
+
+.filter-item input[type="checkbox"] {
+    margin-right: 6px;
+    flex-shrink: 0;
+}
+
+.filter-item label {
+    font-size: 12px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    min-width: 0;
+}
+
+/* Fix the special filters row */
+.special-filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 15px;
+    width: 100%;
+}
+
+.special-filters .filter-item {
+    flex: 0 0 auto;
+    min-width: 120px;
+}
+
+/* Make the extract button responsive */
+.extract-btn {
+    width: 100%;
+    min-width: 200px;
+    padding: 12px;
+    font-size: 16px;
+    margin: 15px 0;
+}
+
+/* Fix the results table */
+.results {
+    width: 100%;
+    overflow-x: auto;
+}
+
+.results table {
+    width: 100%;
+    min-width: 600px;
+    table-layout: auto;
+}
+
+.results th,
+.results td {
+    word-wrap: break-word;
+    max-width: 200px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* Adjust search box */
+.search-container {
+    width: 100%;
+    margin-bottom: 15px;
+}
+
+.search-container input {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 8px;
+    font-size: 14px;
+}
+
+/* Media queries for different popup sizes */
+@media (min-width: 500px) {
+    .filters {
+        grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    }
+}
+
+@media (min-width: 600px) {
+    .filters {
+        grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    }
+}
+
+@media (min-width: 700px) {
+    .filters {
+        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    }
+}
+
+/* TODO: - filter group font size */
+/* #filter-group,
+#filter-group * {
+  font-size: 0.95em;
+} */
 
 
