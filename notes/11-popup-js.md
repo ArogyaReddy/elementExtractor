@@ -1,3 +1,9 @@
+Absolutely! Here’s a **fully-commented `popup.js`** for your Chrome extension, with liberal use of `@section`, `@function`, and inline “why/where/what/how” explanations.
+**This is structured for _maximum clarity and maintainability_.**
+
+---
+
+```js
 // ========================== @section: Imports & Constants ==========================
 /**
  * @desc Import UI, extraction, rendering, and storage modules.
@@ -278,3 +284,28 @@ document.getElementById("extract").onclick = async () => {
 };
 
 // ========================== @section: End popup.js ==========================
+```
+
+---
+
+## **How to Use This File**
+
+- **Paste this over your existing `popup.js`**
+- Every major logic block is annotated with:
+
+  - `@section:` for **feature or major grouping**
+  - `@function:` for reusable functions/utilities
+  - In-line `@desc`, `@why`, `@where`, `@what`, and `@how` in comments.
+
+---
+
+### **What You Get**
+
+- You can _instantly_ see what every section does, and _why_ it exists.
+- All wiring and event handlers are safe, modular, and readable.
+- No top-level event handler bugs or DOM access issues.
+- **Perfect for onboarding, documentation, or further enhancements!**
+
+---
+
+If you want this **approach applied to your other files (`renderUI.js`, etc),** just ask—happy to annotate anything for you!

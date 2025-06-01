@@ -1,28 +1,59 @@
 <!DOCTYPE html>
 <html>
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Element AI Extractor</title>
     <link rel="stylesheet" href="styles/popup.css" />
     <script type="module" src="js/popup.js"></script>
-</head>
-<body>
-  <div class="popup-root">
-    <div class="ai-header">
-      <span class="title-ai">🤖 Element <span class="title-ai-accent">AI Extractor</span> <span class="title-eye">👁️</span></span>
+  </head>
+  <body>
+    <div class="popup-root">
+      <div class="ai-header">
+        <span class="title-ai"
+          >🤖 Element <span class="title-ai-accent">AI Extractor</span> <span class="title-eye">👁️</span></span
+        >
+      </div>
+      <div class="ai-tip-bar" id="ai-tip"></div>
+
+      <div class="top-controls">
+        <div class="search-wrapper">
+          <input id="search" class="search-input" placeholder="Search element...🔍" />
+          <button id="clearSearchBtn" class="clear-search-btn" title="Clear search" style="display:none;">×</button>
+        </div>
+        <div class="actions">
+          <button id="expandBtn" type="button" class="expand-btn">⤢ Expand window</button>
+          <button id="openTabBtn" type="button" class="open-tab-btn">🌐 Open Full Page</button>
+        </div>
+      </div>
+      
+      
+
+      <div id="filter-group" class="filters"></div>
+
+      <div class="toggle-bar">
+        <label class="toggle-switch">
+          <input type="checkbox" id="filterVisible" checked />
+          <span class="slider"></span>
+          <span>Visible Only</span>
+        </label>
+        <label class="toggle-switch">
+          <input type="checkbox" id="filterHidden" />
+          <span class="slider"></span>
+          <span>Hidden Only</span>
+        </label>
+        <label class="toggle-switch">
+          <input type="checkbox" id="filterShadow" />
+          <span class="slider"></span>
+          <span>Shadow DOM</span>
+        </label>
+      </div>
+
+
+      <button id="extract" class="extract-btn">🔍 Extract Elements</button>
+
+      <div id="status" class="status"></div>
+      <div id="preview" class="preview-table"></div>
     </div>
-    <div class="ai-tip-bar" id="ai-tip"></div>
-    <input id="search" type="text" placeholder="Search element names..." autocomplete="off" />
-    <div id="filter-group" class="filters"></div>
-    <div class="row toggles">
-      <label><input type="checkbox" id="filterVisible" checked> Visible Only</label>
-      <label><input type="checkbox" id="filterHidden"> Hidden Only</label>
-      <label><input type="checkbox" id="filterShadow"> Shadow DOM</label>
-    </div>
-    <button id="extract" class="extract-btn">🔍 Extract Elements</button>
-    <div id="status" class="status"></div>
-    <div id="preview" class="preview-table"></div>
-  </div>
-</body>
+  </body>
 </html>

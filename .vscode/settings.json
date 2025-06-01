@@ -1,0 +1,217 @@
+{
+  "workbench.colorTheme": "Monokai",
+  "workbench.iconTheme": "vscode-icons",
+  "editor.minimap.enabled": false,
+
+  // "cucumberautocomplete.steps": [
+  //      "features/step_definitions/**/*js"
+  //  ],
+  //  "cucumberautocomplete.syncfeatures": "features/step_definitions/**/*feature",
+
+  "cucumberautocomplete.steps": ["steps/*js"],
+  "cucumberautocomplete.syncfeatures": "features/**/*feature",
+  "cucumberautocomplete.strictGherkinCompletion": true,
+  "cucumberautocomplete.strictGherkinValidation": true,
+  "cucumberautocomplete.smartSnippets": true,
+  "cucumberautocomplete.stepsInvariants": true,
+  "cucumberautocomplete.skipDocStringsFormat": true,
+  "cucumberautocomplete.formatConfOverride": {
+    "And": 3,
+    "But": "relative"
+  },
+  "cucumberautocomplete.onTypeFormat": true,
+  "editor.quickSuggestions": {
+    "comments": false,
+    "strings": true,
+    "other": true
+  },
+  "cucumberautocomplete.gherkinDefinitionPart": "(Given|When|Then|And)\\(",
+  "cucumberautocomplete.stepRegExSymbol": "'",
+
+  "[javascript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode" // If you use Prettier
+  },
+  // "eslint.validate": ["javascript"], // If you use ESLint
+
+  "[markdown]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+
+  "editor.formatOnPaste": true,
+  "editor.formatOnSave": true,
+  "prettier.printWidth": 999,
+  "prettier.proseWrap": "never",
+  "prettier.arrowParens": "avoid",
+  "prettier.trailingComma": "none",
+  "prettier.bracketSpacing": false,
+  "prettier.singleQuote": true,
+  // "[javascript]": {"editor.defaultFormatter": "esbenp.prettier-vscode"}
+
+  //TODO TREE ---
+  // ... other settings ...
+
+  "todo-tree.tree.tags": [
+    "TODO",
+    "FIXME",
+    "NOTE",
+    "FIX", // 'FIX' is often covered by 'FIXME', but you can be explicit
+    "GOOD",
+    "BAD",
+    "HACK", // Example of another common one
+    "BUG",
+    "V1:",
+    "V2:",
+    "FUNCTION:",
+    "API:",
+    "CLASS:",
+    "USE-THIS:" // Another example
+  ],
+
+  "todo-tree.highlights.customHighlight": {
+    "TODO:": {
+      "icon": "check",
+      "foreground": "#FFF",
+      "background": "#FFBD2A", // Orange/Yellow (matches your image)
+      "iconColour": "#FFBD2A",
+      // To make it look exactly like your "TODO:" image (rounded corners, etc.)
+      // you might need to add styling like:
+      "borderRadius": "4px",
+      "type": "tag-and-comment" // Highlights tag and the rest of the comment
+      // or "tag" to highlight only the tag itself
+      // or "text" to highlight the tag as plain text.
+      // The default usually works well.
+    },
+    "FIXME:": {
+      "icon": "bug",
+      "foreground": "#FFF",
+      "background": "#f70202", // Bright Red (matches your image)
+      "iconColour": "#f70202",
+      "borderRadius": "4px",
+      "type": "tag-and-comment"
+    },
+    "NOTE:": {
+      "icon": "note",
+      "foreground": "#000000", // Black text on blue might be hard to read, consider #FFF
+      "background": "#108bf0", // Blue
+      "iconColour": "#022139",
+      "borderRadius": "4px",
+      "type": "tag-and-comment"
+    },
+    "FIX:": {
+      "icon": "bug",
+      "foreground": "#FFF",
+      "background": "#f70202", // Same as FIXME
+      "iconColour": "#f70202",
+      "borderRadius": "4px",
+      "type": "tag-and-comment"
+    },
+    "GOOD:": {
+      "icon": "thumbsup",
+      "foreground": "#FFF",
+      "background": "#388E3C", // Green
+      "iconColour": "#388E3C",
+      "borderRadius": "4px",
+      "type": "tag-and-comment"
+    },
+    "BAD:": {
+      "icon": "thumbsdown",
+      "foreground": "#FFF",
+      "background": "#D32F2F", // Darker Red
+      "iconColour": "#D32F2F",
+      "borderRadius": "4px",
+      "type": "tag-and-comment"
+    },
+    "USE:": {
+      "icon": "thumbsdown",
+      "foreground": "#FFF",
+      "background": "#D32F2F", // Darker Red
+      "iconColour": "#D32F2F",
+      "borderRadius": "4px",
+      "type": "tag-and-comment"
+    },
+    "V1:": {
+      "icon": "thumbsdown",
+      "foreground": "#FFF",
+      "background": "#b2acf0", // Darker Red
+      "iconColour": "#8598e6",
+      "borderRadius": "4px",
+      "type": "tag-and-comment"
+    },
+    "V2:": {
+      "icon": "thumbsdown",
+      "foreground": "#FFF",
+      "background": "#1731db", // Darker Red
+      "iconColour": "#2f32d3",
+      "borderRadius": "4px",
+      "type": "tag-and-comment"
+    },
+    "FUNCTION:": {
+      "icon": "thumbsdown",
+      "foreground": "#FFF",
+      "background": "#319036", // Darker Red
+      "iconColour": "#099127",
+      "borderRadius": "4px",
+      "type": "tag-and-comment"
+    },
+    "CLASS:": {
+      "icon": "thumbsdown",
+      "foreground": "#FFF",
+      "background": "#010416", // Darker Red
+      "iconColour": "#0a0b5e",
+      "borderRadius": "4px",
+      "type": "tag-and-comment"
+    },
+    "API:": {
+      "icon": "thumbsdown",
+      "foreground": "#FFF",
+      "background": "#de480c", // Darker Red
+      "iconColour": "#d85a16",
+      "borderRadius": "4px",
+      "type": "tag-and-comment"
+    },
+    "USE-THIS:": {
+      "icon": "thumbsdown",
+      "foreground": "#FFF",
+      "background": "#0adb1f", // Darker Red
+      "iconColour": "#06650b",
+      "borderRadius": "4px",
+      "type": "tag-and-comment"
+    }
+  },
+
+  // Your existing defaultHighlight (it's good to have it)
+  "todo-tree.highlights.defaultHighlight": {
+    "foreground": "white",
+    "background": "green", // This will apply to tags in todo-tree.tree.tags
+    // that are NOT in customHighlight
+    "opacity": 50,
+    "type": "text-and-comment"
+  },
+
+  // It's also good to specify how the tag should be matched
+  "todo-tree.general.tags": [
+    // This is an alias for todo-tree.tree.tags or might be newer
+    "TODO:",
+    "FIXME:",
+    "NOTE:",
+    "FIX:",
+    "GOOD:",
+    "BAD:",
+    "EXCELLENT:",
+    "USE:",
+    "V1:",
+    "V2:",
+    "FUNCTION:",
+    "API:",
+    "CLASS:",
+    "USE-THIS:" // Example of another tag you might want to add
+  ],
+
+  // Controls case sensitivity (default is usually false, which is good)
+  "todo-tree.general.matchCase": false,
+
+  // Optional: If you want to highlight the entire line instead of just the tag/comment
+  // "todo-tree.highlights.highlightWholeLine": false, // set to true if desired
+
+  "todo-tree.general.tagGroups": {} // Ensure this is present or empty if not used
+}

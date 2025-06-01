@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Ultimate Web Elements Test Page</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        .banner {
+            background: #ffecb3;
+            padding: 16px;
+            text-align: center;
+            font-size: 1.2em;
+        }
+
+        .modal,
+        .floating {
+            display: none;
+            position: fixed;
+            top: 30%;
+            left: 50%;
+            transform: translate(-50%, -30%);
+            background: #fff;
+            border: 2px solid #222;
+            padding: 32px;
+            z-index: 1000;
+        }
+
+        .modal.active,
+        .floating.active {
+            display: block;
+        }
+
+        .overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 999;
+        }
+
+        .overlay.active {
+            display: block;
+        }
+
+        .floating {
+            top: 70%;
+            left: 80%;
+            width: 200px;
+        }
+
+        .container {
+            margin: 30px auto;
+            max-width: 900px;
+            padding: 24px;
+            background: #f7f7f7;
+            border-radius: 10px;
+            box-shadow: 0 4px 14px #0001;
+        }
+
+        .shadow-host {
+            margin: 16px 0;
+            border: 2px dashed #2196f3;
+            padding: 12px;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin: 18px 0;
+        }
+
+        th,
+        td {
+            border: 1px solid #aaa;
+            padding: 8px;
+        }
+
+        .btn {
+            background: #2196f3;
+            color: #fff;
+            border: none;
+            padding: 8px 18px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .btn:active {
+            background: #1565c0;
+        }
+
+        .image-sample {
+            width: 80px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="banner">🚩 <b>This is a top banner! (Banner test)</b> <a href="#main" class="btn">Go to Main</a></div>
+
+    <div class="container" id="main">
+        <h1>Ultimate Web Elements Test</h1>
+        <h2>Forms</h2>
+        <form id="testForm">
+            <label>Name: <input type="text" name="name"></label><br>
+            <label>Email: <input type="email" name="email"></label><br>
+            <label>Password: <input type="password" name="pass"></label><br>
+            <label>
+                Gender:
+                <input type="radio" name="gender" value="male"> Male
+                <input type="radio" name="gender" value="female"> Female
+            </label><br>
+            <label>
+                Hobbies:
+                <input type="checkbox" name="hobby" value="reading"> Reading
+                <input type="checkbox" name="hobby" value="sports"> Sports
+            </label><br>
+            <label>
+                Country:
+                <select name="country">
+                    <option>USA</option>
+                    <option>India</option>
+                    <option>UK</option>
+                </select>
+            </label><br>
+            <label>
+                Comments:<br>
+                <textarea name="comments"></textarea>
+            </label><br>
+            <button class="btn" type="submit">Submit</button>
+        </form>
+
+        <h2>Table</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Active</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Alice</td>
+                    <td>alice@mail.com</td>
+                    <td><input type="checkbox" checked></td>
+                </tr>
+                <tr>
+                    <td>Bob</td>
+                    <td>bob@mail.com</td>
+                    <td><input type="checkbox"></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h2>List</h2>
+        <ul>
+            <li>List item 1</li>
+            <li>List item 2</li>
+            <li>
+                Sublist
+                <ol>
+                    <li>Ordered 1</li>
+                    <li>Ordered 2</li>
+                </ol>
+            </li>
+        </ul>
+
+        <h2>Links, Buttons & Images</h2>
+        <p>
+            <a href="https://www.example.com" target="_blank">Example Link</a>
+            <button class="btn" onclick="showModal()">Open Modal</button>
+            <button class="btn" onclick="showFloating()">Show Floating Window</button>
+            <img src="https://via.placeholder.com/80x50?text=Image" class="image-sample" alt="Sample Image">
+        </p>
+
+        <h2>Shadow DOM Example</h2>
+        <div class="shadow-host" id="shadow-host-1">
+            (Shadow Root will appear here)
+        </div>
+
+        <div class="shadow-host" id="shadow-host-2">
+            (Closed Shadow Root here)
+        </div>
+    </div>
+
+    <!-- Modal and Floating elements -->
+    <div class="overlay" id="modalOverlay" onclick="closeModal()"></div>
+    <div class="modal" id="testModal">
+        <h3>Modal Window</h3>
+        <p>This is a modal popup window.</p>
+        <button class="btn" onclick="closeModal()">Close</button>
+    </div>
+    <div class="floating" id="floatingWindow">
+        <h4>Floating Window</h4>
+        <p>Movable floating content.</p>
+        <button class="btn" onclick="closeFloating()">Hide</button>
+    </div>
+
+    <script>
+        // Modal/Floating logic
+        function showModal() {
+            document.getElementById('testModal').classList.add('active');
+            document.getElementById('modalOverlay').classList.add('active');
+        }
+        function closeModal() {
+            document.getElementById('testModal').classList.remove('active');
+            document.getElementById('modalOverlay').classList.remove('active');
+        }
+        function showFloating() {
+            document.getElementById('floatingWindow').classList.add('active');
+        }
+        function closeFloating() {
+            document.getElementById('floatingWindow').classList.remove('active');
+        }
+
+        // Shadow DOM — open mode
+        const shadowHost1 = document.getElementById('shadow-host-1');
+        const shadowRoot1 = shadowHost1.attachShadow({ mode: 'open' });
+        shadowRoot1.innerHTML = `
+    <div>
+      <h4>Inside Shadow Root (open)</h4>
+      <button id="shadowBtn1">Shadow Button 1</button>
+      <input type="text" placeholder="Shadow Textbox">
+      <a href="#">Shadow Link</a>
+    </div>
+  `;
+
+        // Shadow DOM — closed mode
+        const shadowHost2 = document.getElementById('shadow-host-2');
+        const shadowRoot2 = shadowHost2.attachShadow({ mode: 'closed' });
+        shadowRoot2.innerHTML = `
+    <div>
+      <h4>Inside Shadow Root (closed)</h4>
+      <button id="shadowBtn2">Shadow Button 2</button>
+      <input type="checkbox">
+      <a href="#">Shadow Link 2</a>
+    </div>
+  `;
+    </script>
+</body>
+
+</html>

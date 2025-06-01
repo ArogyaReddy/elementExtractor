@@ -1,6 +1,6 @@
 // @section: domExtraction.js
 export function extractElementsSmart({ filters, visibleOnly, hiddenOnly, shadowDOM }) {
-  // --- NESTED HELPER FUNCTION ---
+  // --- Helper: Collect elements including shadow roots ---
   function collectFilteredElementsIncludingShadow(root, selectors, out = []) {
     for (const el of root.querySelectorAll("*")) {
       let matches = false;
@@ -20,7 +20,54 @@ export function extractElementsSmart({ filters, visibleOnly, hiddenOnly, shadowD
     }
     return out;
   }
-  // --- END OF NESTED HELPER FUNCTION ---
+
+  /** //TODO:- //FUNCTION: Get all locators for a DOM element
+   * This function returns a list of all possible locators for a given DOM element.
+   * It includes locators like ByRole, ByLabel, ByText, ByTestId, ByID, ByCSS, and ByXPath.
+   * The locators are ordered by preference.
+   * @param {HTMLElement} el - The DOM element to extract locators from.
+   * @returns {Array<{type: string, value: string}>} - An array of locator objects with type and value.
+   */
+  function getAllLocators(el) {
+    const locators = [];
+    // 1. ByRole + name
+    const role = el.getAttribute("role");
+    let name = "";
+    if (el.getAttribute("aria-label")) name = el.getAttribute("aria-label");
+    else if (el.getAttribute("aria-labelledby")) {
+      const labelEl = document.getElementById(el.getAttribute("aria-labelledby"));
+      if (labelEl) name = labelEl.textContent.trim();
+    } else if (el.innerText && el.innerText.length < 40) name = el.innerText.trim();
+
+    if (role && name) locators.push({ type: "byRole", value: `getByRole('${role}', { name: '${name}' })` });
+
+    // 2. ByLabel
+    if (el.labels && el.labels.length)
+      locators.push({ type: "byLabel", value: `getByLabel('${el.labels[0].textContent.trim()}')` });
+
+    // 3. ByText
+    if (el.tagName.match(/BUTTON|A/) && el.innerText && el.innerText.length < 40)
+      locators.push({ type: "byText", value: `getByText('${el.innerText.trim()}')` });
+
+    // 4. ByTestId
+    if (el.hasAttribute("data-testid"))
+      locators.push({ type: "byTestId", value: `[data-testid="${el.getAttribute("data-testid")}"]` });
+    if (el.hasAttribute("data-qa"))
+      locators.push({ type: "byTestId", value: `[data-qa="${el.getAttribute("data-qa")}"]` });
+
+    // 5. ByID
+    if (el.id) locators.push({ type: "byId", value: `#${el.id}` });
+
+    // 6. ByCSS
+    const css = getUniqueCssSelector(el);
+    if (css) locators.push({ type: "byCss", value: css });
+
+    // 7. ByXPath
+    const xpath = getXPath(el);
+    if (xpath) locators.push({ type: "byXpath", value: xpath });
+
+    return locators;
+  }
 
   const typeToSelector = {
     filterLinks: "a",
@@ -92,49 +139,45 @@ export function extractElementsSmart({ filters, visibleOnly, hiddenOnly, shadowD
   // domElements = collectFilteredElementsIncludingShadow(document, selectors).slice(0, 2000);
 
   console.log("Found elements:", domElements.length);
+
+  //TODO:--- Main extraction logic ---
   const data = [];
+
   for (let el of domElements) {
     if (visibleOnly && !isVisible(el)) continue;
     if (hiddenOnly && isVisible(el)) continue;
 
-    const smartLocator = getSmartLocator(el);
+    // --- Get all locators ---
+    const locators = getAllLocators(el);
+    const primary = locators[0] || { type: "none", value: "" };
+    const secondary = locators.slice(1);
 
     const row = {
       "Element Name": getElementName(el),
       "Element Type": getElementType(el),
-      "Locator Type": smartLocator.locatorType,
-      "Best Locator": smartLocator.locator,
+      "Primary Locator": `${primary.type}: ${primary.value}`,
+      "Secondary Locators": secondary.map((l) => `${l.type}: ${l.value}`).join(" || "),
       ID: el.id || "",
       CSS: getUniqueCssSelector(el),
       XPATH: getXPath(el),
       "In Shadow DOM": !!el.getRootNode().host ? "Yes" : "No",
     };
 
-    // ---- Add this console output! ----
+    // --- Console output (with all locators) ---
     console.log(
-      `%c[Extracted]%c ${row["Element Name"]} %c| %cBest: %c${row["Best Locator"]} %c| CSS: %c${row.CSS} %c| XPATH: %c${row.XPATH}`,
+      `%c[Extracted]%c ${getElementName(el)} %c| %cPrimary: %c${primary.type}: ${
+        primary.value
+      } %c| Secondary: %c${secondary.map((l) => `${l.type}: ${l.value}`).join(" || ")}`,
       "color:#9af; font-weight:bold;", // [Extracted]
       "color:white; font-weight:bold;", // element name
       "color:gray;",
-      "color:#8ff; font-weight:bold;", // Best:
+      "color:#8ff; font-weight:bold;", // Primary:
       "color:#3af;",
-      "color:gray;",
-      "color:#afa;",
       "color:gray;",
       "color:#fa3;"
     );
 
     data.push(row);
-    // data.push({
-    //   "Element Name": getElementName(el),
-    //   "Element Type": getElementType(el),
-    //   "Locator Type": smartLocator.locatorType,
-    //   "Best Locator": smartLocator.locator,
-    //   ID: el.id || "",
-    //   CSS: getUniqueCssSelector(el),
-    //   XPATH: getXPath(el),
-    //   "In Shadow DOM": !!el.getRootNode().host ? "Yes" : "No",
-    // });
   }
   return data;
 

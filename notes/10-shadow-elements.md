@@ -1,0 +1,531 @@
+now, let's concentrate more Shadow Root and Shadow DOM elements.
+Give me a website where these Shadow Root and Shadow DOM elements are in and so we can use our tool to see if it is scanning perfectly.
+And we need to work more on Shadow Root and Shadow DOM elements to locate them perfectly with Primary and secondary locators techniques that we are following
+
+okay, give me more complex elements strucures with all sorts of elements, forms, tables, lists, radios, combos, shadow dom, shadow-root, modell, popups, floating windows, full screen models, banners, links, buttons, texts, headings, images, all kinds elements .
+So that we can use and test our tool
+
+give me more complex elements strucures with all sorts of elements, forms, tables, lists, radios, combos, shadow dom, shadow-root, modell, popups, floating windows, full screen models, banners, links, buttons, texts, headings, images, file uploads, downloads, all kinds elements .
+So that we can use and test our tool
+These all should be in a sample webapp
+and so, we can use for automation testing too.
+please use login, logout screens as well.
+It should look like real applcaiton, like a payroll portal with test scenarions, like, login, logout, models, full screen models,banners, info, with all more complex elements strucures with all sorts of elements, forms, tables, lists, radios, combos, shadow dom, shadow-root, modell, popups, floating windows, full screen models, banners, links, buttons, texts, headings, images, file uploads, downloads, all kinds elements .
+
+This is a **very advanced test scenario**—so here is a **single-page payroll portal demo app** that you can save as `payroll-demo.html` and open in your browser.
+**It’s packed with everything:** login/logout, modals, banners, tables, complex forms, Shadow DOM (with deep nesting), file upload, download simulation, floating/help windows, popups, all HTML input types, real-world scenarios, and more.
+
+You can extend or style further, but this gives you an extremely _rich playground_ for automation, AI locators, and shadow root testing.
+
+---
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Payroll Portal Demo (Complex Elements Lab)</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <style>
+      body {
+        margin: 0;
+        background: #f6f9fc;
+        font-family: "Segoe UI", Arial, sans-serif;
+      }
+      .banner {
+        background: linear-gradient(90deg, #f9d923 0%, #f78ca2 100%);
+        padding: 16px;
+        text-align: center;
+        font-size: 1.1em;
+      }
+      .container {
+        max-width: 920px;
+        margin: 32px auto;
+        background: #fff;
+        border-radius: 12px;
+        box-shadow: 0 4px 18px #0001;
+        padding: 32px;
+      }
+      .header {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+      .logo {
+        width: 46px;
+        height: 46px;
+        border-radius: 8px;
+        background: #19c8fa;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #fff;
+        font-size: 2em;
+      }
+      nav {
+        margin-left: auto;
+      }
+      nav a {
+        color: #19c8fa;
+        font-weight: bold;
+        text-decoration: none;
+        margin: 0 8px;
+      }
+      nav a.active {
+        border-bottom: 2px solid #19c8fa;
+      }
+      .form-row {
+        margin-bottom: 16px;
+      }
+      label {
+        display: block;
+        font-weight: 500;
+      }
+      input,
+      select,
+      textarea {
+        width: 100%;
+        padding: 7px 10px;
+        font-size: 1em;
+        border: 1px solid #ccc;
+        border-radius: 6px;
+        margin-top: 5px;
+      }
+      .form-row.radio label {
+        display: inline;
+        margin-right: 18px;
+      }
+      .form-row.checkbox label {
+        display: inline;
+        margin-right: 18px;
+      }
+      .btn {
+        background: #19c8fa;
+        color: #fff;
+        border: none;
+        padding: 8px 22px;
+        border-radius: 6px;
+        font-size: 1em;
+        cursor: pointer;
+      }
+      .btn.secondary {
+        background: #0b95a2;
+      }
+      .btn:active {
+        filter: brightness(0.92);
+      }
+      .table-wrap {
+        overflow-x: auto;
+      }
+      table {
+        border-collapse: collapse;
+        width: 100%;
+        margin: 18px 0;
+      }
+      th,
+      td {
+        border: 1px solid #ddd;
+        padding: 10px;
+      }
+      th {
+        background: #f3fafe;
+      }
+      .floating,
+      .modal,
+      .fullscreen-modal {
+        display: none;
+        position: fixed;
+        z-index: 1100;
+        background: #fff;
+        box-shadow: 0 4px 22px #3333;
+        border-radius: 12px;
+      }
+      .floating.active {
+        display: block;
+        top: 18%;
+        right: 2%;
+        width: 290px;
+        padding: 24px;
+      }
+      .modal.active {
+        display: block;
+        left: 50%;
+        top: 32%;
+        transform: translate(-50%, -32%);
+        width: 390px;
+        padding: 32px;
+      }
+      .fullscreen-modal.active {
+        display: flex;
+        flex-direction: column;
+        left: 0;
+        top: 0;
+        width: 100vw;
+        height: 100vh;
+        padding: 0;
+        align-items: center;
+        justify-content: center;
+      }
+      .fullscreen-modal .content {
+        background: #fff;
+        border-radius: 16px;
+        padding: 48px;
+        box-shadow: 0 8px 40px #0004;
+        width: 60vw;
+        max-width: 700px;
+      }
+      .overlay {
+        display: none;
+        position: fixed;
+        z-index: 1000;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        background: rgba(16, 28, 48, 0.3);
+      }
+      .overlay.active {
+        display: block;
+      }
+      .logout-btn {
+        float: right;
+        margin-left: 10px;
+      }
+      .file-upload {
+        margin-bottom: 18px;
+      }
+      .payroll-info {
+        background: #e8f7fb;
+        padding: 12px;
+        border-radius: 6px;
+        margin-bottom: 22px;
+      }
+      .info-btn {
+        color: #19c8fa;
+        background: none;
+        border: none;
+        cursor: pointer;
+        font-size: 1.2em;
+      }
+      .shadow-host {
+        margin: 24px 0 0 0;
+        padding: 16px;
+        border: 2px dashed #19c8fa;
+        border-radius: 7px;
+      }
+      /* Floating close button */
+      .floating .btn-close {
+        position: absolute;
+        top: 5px;
+        right: 10px;
+        background: none;
+        color: #aaa;
+        font-size: 1.1em;
+      }
+      .fullscreen-modal .btn-close {
+        position: absolute;
+        top: 32px;
+        right: 40px;
+        background: none;
+        color: #aaa;
+        font-size: 1.5em;
+      }
+      /* Responsive */
+      @media (max-width: 600px) {
+        .container {
+          padding: 12px;
+        }
+        .fullscreen-modal .content {
+          width: 95vw;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="banner">📢 Payroll processing this week! <b>Submit timesheets by Friday 5pm.</b></div>
+    <div class="container" id="main-app">
+      <div class="header">
+        <div class="logo">💸</div>
+        <h2>PayRoll Demo Portal</h2>
+        <nav id="main-nav" style="display:none">
+          <a href="#dashboard" id="nav-dash" class="active">Dashboard</a>
+          <a href="#profile" id="nav-prof">Profile</a>
+          <a href="#docs" id="nav-docs">Documents</a>
+          <a href="#logout" id="nav-logout" class="logout-btn btn secondary">Logout</a>
+        </nav>
+      </div>
+
+      <!-- Login -->
+      <form id="login-form" autocomplete="on">
+        <h3>Login to Payroll</h3>
+        <div class="form-row">
+          <label>Username <input type="text" name="username" required autofocus value="testuser" /></label>
+        </div>
+        <div class="form-row">
+          <label>Password <input type="password" name="password" required value="password" /></label>
+        </div>
+        <button class="btn" type="submit">Login</button>
+      </form>
+
+      <!-- Dashboard -->
+      <div id="dashboard" style="display:none">
+        <h3>Welcome, <span id="user-welcome">testuser</span>!</h3>
+        <div class="payroll-info">
+          💬 <b>Latest Info:</b> <span>Your last payslip is available. Download below.</span>
+          <button class="info-btn" onclick="showFloating()">ⓘ Help</button>
+        </div>
+        <button class="btn" onclick="showModal()">Add Payroll Entry</button>
+        <button class="btn secondary" onclick="showFullscreenModal()">Open Fullscreen Modal</button>
+
+        <h4>Payslips</h4>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Date</th>
+                <th>Amount</th>
+                <th>Status</th>
+                <th>File</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>2025-05-31</td>
+                <td>$3,210.00</td>
+                <td>✅ Paid</td>
+                <td><a href="#" onclick="fakeDownload('payslip_may.pdf')" download="payslip_may.pdf">Download</a></td>
+              </tr>
+              <tr>
+                <td>2025-04-30</td>
+                <td>$3,150.00</td>
+                <td>✅ Paid</td>
+                <td><a href="#" onclick="fakeDownload('payslip_apr.pdf')" download="payslip_apr.pdf">Download</a></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="shadow-host" id="shadow-host">(Custom Shadow Payroll Widget here)</div>
+      </div>
+
+      <!-- Profile -->
+      <div id="profile" style="display:none">
+        <h3>👤 Profile</h3>
+        <form id="profile-form">
+          <div class="form-row">
+            <label>Full Name <input type="text" name="fullname" value="Test User" /></label>
+          </div>
+          <div class="form-row">
+            <label>Email <input type="email" name="email" value="test@paydemo.com" /></label>
+          </div>
+          <div class="form-row radio">
+            <label><input type="radio" name="pref-contact" checked /> Email</label>
+            <label><input type="radio" name="pref-contact" /> SMS</label>
+          </div>
+          <div class="form-row checkbox">
+            <label><input type="checkbox" checked /> Receive Notifications</label>
+          </div>
+          <div class="form-row">
+            <label
+              >Country
+              <select name="country">
+                <option>India</option>
+                <option>USA</option>
+                <option>UK</option>
+              </select>
+            </label>
+          </div>
+          <div class="form-row">
+            <label
+              >About You
+              <textarea rows="3" name="about">Loves payroll automation.</textarea>
+            </label>
+          </div>
+          <div class="form-row file-upload">
+            <label
+              >Upload ID Proof
+              <input type="file" id="file-upload" accept=".jpg,.png,.pdf" />
+            </label>
+          </div>
+          <button class="btn" type="submit">Update Profile</button>
+        </form>
+      </div>
+
+      <!-- Docs/Downloads -->
+      <div id="docs" style="display:none">
+        <h3>📄 Company Documents</h3>
+        <ul>
+          <li><a href="#" onclick="fakeDownload('employee_handbook.pdf')" download>Employee Handbook</a></li>
+          <li><a href="#" onclick="fakeDownload('leave_policy.pdf')" download>Leave Policy</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Modal Overlay and Modals -->
+    <div class="overlay" id="modalOverlay" onclick="closeModal();closeFullscreenModal();"></div>
+    <div class="modal" id="testModal">
+      <h3>Add Payroll Entry</h3>
+      <form id="payroll-entry">
+        <div class="form-row">
+          <label
+            >Employee
+            <input type="text" name="emp" value="Test User" />
+          </label>
+        </div>
+        <div class="form-row">
+          <label>Date <input type="date" name="date" /></label>
+        </div>
+        <div class="form-row">
+          <label>Amount <input type="number" name="amount" value="3200" /></label>
+        </div>
+        <div class="form-row radio">
+          <label><input type="radio" name="mode" checked /> Bank Transfer</label>
+          <label><input type="radio" name="mode" /> Cash</label>
+        </div>
+        <div class="form-row checkbox">
+          <label><input type="checkbox" checked /> Send Notification</label>
+        </div>
+        <button class="btn" type="submit">Submit</button>
+        <button class="btn secondary" type="button" onclick="closeModal()">Cancel</button>
+      </form>
+    </div>
+    <div class="floating" id="floatingWindow">
+      <button class="btn-close" onclick="closeFloating()" aria-label="Close">&times;</button>
+      <h4>Need Help?</h4>
+      <p>For payroll questions, email <a href="mailto:support@paydemo.com">support@paydemo.com</a></p>
+      <button class="btn secondary" onclick="closeFloating()">Close</button>
+    </div>
+    <div class="fullscreen-modal" id="fullscreenModal">
+      <button class="btn-close" onclick="closeFullscreenModal()" aria-label="Close">&times;</button>
+      <div class="content">
+        <h3>Full Screen Modal</h3>
+        <p>This is a full-screen modal dialog. Useful for approvals, big forms, or anything else.</p>
+        <button class="btn" onclick="closeFullscreenModal()">OK</button>
+      </div>
+    </div>
+
+    <script>
+      // --------- SPA Routing/State
+      let currentUser = null;
+      document.getElementById("login-form").onsubmit = function (e) {
+        e.preventDefault();
+        currentUser = this.username.value;
+        document.getElementById("login-form").style.display = "none";
+        document.getElementById("main-nav").style.display = "";
+        showPage("dashboard");
+        document.getElementById("user-welcome").textContent = currentUser;
+      };
+      document.getElementById("nav-dash").onclick = function () {
+        showPage("dashboard");
+        return false;
+      };
+      document.getElementById("nav-prof").onclick = function () {
+        showPage("profile");
+        return false;
+      };
+      document.getElementById("nav-docs").onclick = function () {
+        showPage("docs");
+        return false;
+      };
+      document.getElementById("nav-logout").onclick = function () {
+        document.getElementById("main-nav").style.display = "none";
+        document.getElementById("login-form").style.display = "";
+        ["dashboard", "profile", "docs"].forEach((id) => (document.getElementById(id).style.display = "none"));
+        currentUser = null;
+        return false;
+      };
+
+      function showPage(id) {
+        ["dashboard", "profile", "docs"].forEach((x) => (document.getElementById(x).style.display = "none"));
+        document.getElementById(id).style.display = "";
+        Array.from(document.querySelectorAll("nav a")).forEach((x) => x.classList.remove("active"));
+        if (id === "dashboard") document.getElementById("nav-dash").classList.add("active");
+        if (id === "profile") document.getElementById("nav-prof").classList.add("active");
+        if (id === "docs") document.getElementById("nav-docs").classList.add("active");
+      }
+
+      // ------------- Modal/Floating logic
+      function showModal() {
+        document.getElementById("testModal").classList.add("active");
+        document.getElementById("modalOverlay").classList.add("active");
+      }
+      function closeModal() {
+        document.getElementById("testModal").classList.remove("active");
+        document.getElementById("modalOverlay").classList.remove("active");
+      }
+      function showFloating() {
+        document.getElementById("floatingWindow").classList.add("active");
+      }
+      function closeFloating() {
+        document.getElementById("floatingWindow").classList.remove("active");
+      }
+      function showFullscreenModal() {
+        document.getElementById("fullscreenModal").classList.add("active");
+        document.getElementById("modalOverlay").classList.add("active");
+      }
+      function closeFullscreenModal() {
+        document.getElementById("fullscreenModal").classList.remove("active");
+        document.getElementById("modalOverlay").classList.remove("active");
+      }
+
+      // Download simulation
+      function fakeDownload(name) {
+        let blob = new Blob(["Payroll Data: Confidential"], { type: "application/pdf" });
+        let url = URL.createObjectURL(blob);
+        let a = document.createElement("a");
+        a.href = url;
+        a.download = name;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        setTimeout(() => URL.revokeObjectURL(url), 1500);
+      }
+
+      // Shadow DOM - Open
+      let shadowHost = document.getElementById("shadow-host");
+      let shadowRoot = shadowHost.attachShadow({ mode: "open" });
+      shadowRoot.innerHTML = `
+    <style>
+      .shadow-payroll { background: #f1feee; border: 1px solid #d2ede4; border-radius: 7px; padding: 16px; margin-top: 12px;}
+      .shadow-payroll input, .shadow-payroll select { border: 1px solid #a2a2f2;}
+    </style>
+    <div class="shadow-payroll">
+      <h4>Shadow Payroll Widget</h4>
+      <form>
+        <label>Shadow Input <input type="text" value="Shadow Data"></label><br>
+        <label>Shadow Combo
+          <select>
+            <option>Shadow 1</option>
+            <option>Shadow 2</option>
+          </select>
+        </label><br>
+        <button class="btn" type="button" onclick="alert('Shadow Submit!')">Submit</button>
+      </form>
+      <table>
+        <tr><th>Shadow Table</th></tr>
+        <tr><td>Value 1</td></tr>
+      </table>
+      <a href="#">Shadow Link</a>
+    </div>
+  `;
+
+      // File upload preview (for fun)
+      document.getElementById("file-upload").addEventListener("change", function () {
+        if (this.files.length > 0) {
+          alert('File "' + this.files[0].name + '" selected!');
+        }
+      });
+    </script>
+  </body>
+</html>
+```
+
+---
+
+**How to use:**
+
+- Save as `payroll-demo.html` and open in your browser.
+- Login with any username/password.
+- Use navigation, forms, file upload, modals, floating windows, download links, and the Shadow DOM widget.
+
+**This page is loaded for any automation, AI locator, or shadow DOM extractor testing.**
+If you want even deeper shadow nesting, custom elements, or another app scenario, just ask!
